@@ -99,4 +99,3 @@ if __name__ == "__main__":
     root = ctk.CTk()
     app = SudokuUI(root)
     root.mainloop()
-#git test
