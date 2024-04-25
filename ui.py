@@ -1,7 +1,9 @@
 import customtkinter as ctk
 import tkinter as tk
 import math, random
-
+# need to add reset, restart functionality
+# need to implement win screen when board is filled correctly
+# nee to implement lose screen when board is not filled correctly
 
 ctk.set_appearance_mode("Dark")
 ctk.set_default_color_theme("blue")
