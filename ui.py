@@ -18,7 +18,7 @@ class SudokuUI:
         self.start_frame.pack(pady=20, padx=20, fill="both", expand=True)
 
         title_label = ctk.CTkLabel(
-            master=self.start_frame, text="Sudoku Game", font=("Roboto", 18)
+            master=self.start_frame, text="Sudoku", font=("Roboto", 18)
         )
         title_label.pack(pady=12)
 
