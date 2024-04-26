@@ -64,6 +64,24 @@ class SudokuUI:
         )
         self.play_again_button.pack(pady=8)
 
+    def display_game_end_screen(self):
+            self.end_frame.pack_forget()
+            self.lose_label = ctk.CTkLabel(
+                master=self.root, text="Game Over! Try again!", font=("Roboto", 18)
+            )
+            self.lose_label.pack(pady=12)
+            self.play_again_button.pack(pady=8)
+            self.exit_button.pack(pady=8)
+
+    def display_win_screen(self):
+        self.end_frame.pack_forget()
+        self.win_label = ctk.CTkLabel(
+            master=self.root, text="Congratulations! You've won!", font=("Roboto", 18)
+        )
+        self.win_label.pack(pady=12)
+        self.play_again_button.pack(pady=8)
+        self.exit_button.pack(pady=8)
+
     def set_difficulty(self, difficulty):
         self.difficulty = difficulty
         self.start_frame.pack_forget()
