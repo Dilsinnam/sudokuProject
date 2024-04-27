@@ -1,9 +1,11 @@
 import customtkinter as ctk
 import tkinter as tk
 import math, random
-# need to add reset, restart functionality
-# need to implement win screen when board is filled correctly
-# nee to implement lose screen when board is not filled correctly
+# User can only enter a single digit, need to implement sketched values (LOOK AT PDF)
+# need to allow user to select cells via mouse and arrow keys and have a border around the cell to let user know
+# Add border around board and so that 3x3 subgrids are visible
+# Need Win and Lose still
+
 
 ctk.set_appearance_mode("Dark")
 ctk.set_default_color_theme("blue")
@@ -13,6 +15,7 @@ class SudokuUI:
     def __init__(self, root):
         self.root = root
         self.root.title("Sudoku")
+        self.initial_board = None
         self.cells = []
         self.create_game_start_screen()
         self.create_game_end_screen()
@@ -99,6 +102,7 @@ class SudokuUI:
             for j in range(9):
                 if board[i][j] != 0:
                     self.cells[i][j].set_cell_value(board[i][j])
+        self.initial_board = board
 
     def create_game_board(self):
         self.board_frame = ctk.CTkFrame(master=self.root)
@@ -141,10 +145,14 @@ class SudokuUI:
         self.progress_bar.place(relx=0.5, rely=0.95, anchor="center")
 
     def reset_board(self):
-        for row in self.cells:
-            for cell in row:
-                cell.set_cell_value(0)
-        self.update_progress()
+        if self.initial_board is not None:
+            for i in range(9):
+                for j in range(9):
+                    if self.initial_board[i][j] != 0:
+                        self.cells[i][j].set_cell_value(self.initial_board[i][j])
+                    else:
+                        self.cells[i][j].set_cell_value(0)
+
 
     def restart_game(self):
         self.board_frame.pack_forget()
@@ -165,30 +173,39 @@ class SudokuUI:
 class Cell:
     def __init__(self, value, row, col, screen):
         self.value = value
+        self.sketch_value = None
         self.row = row
         self.col = col
         self.screen = screen
         self.entry = ctk.CTkEntry(master=screen, width=40, height=40, justify='center')
         self.entry.grid(row=row, column=col, padx=2, pady=2)
         self.selected = False
+        self.entry.configure(validate="key")
+        self.entry.bind("<Key>", self.validate_input)
 
     def validate_input(self, new_value):
-        if new_value.isdigit():
-            num = int(new_value)
-            return 1 <= num <= 9
-        elif new_value == "":
+        current_value = self.entry.get()
+        if new_value.char.isdigit() and 1 <= int(new_value.char) <= 9:
             return True
         else:
             return False
 
+    def submit_guess(self, event):
+        if self.sketch_value is None:
+            self.value = self.sketch_value
+            self.sketch_value = None
+            self.entry.delete(0, tk.END)
+            self.entry.insert(0, self.value)
+            self.entry.config(state="disabled")
+
     def set_cell_value(self, value):
         self.value = value
-        self.entry.delete(0, tk.END)
         if value == 0:
-            self.set_random_value()
+            self.entry.delete(0, tk.END)
         else:
+            self.entry.delete(0, tk.END)
             self.entry.insert(0, value)
-        self.entry.configure(state="disabled")
+            self.entry.configure(state="disabled")
 
     def set_random_value(self):
         self.value = random.randint(1, 9)
