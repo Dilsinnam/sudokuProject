@@ -108,6 +108,13 @@ class SudokuUI:
             [Cell(0, i, j, self.board_frame) for j in range(9)] for i in range(9)
         ]
 
+        # Adjusting grid placement to add space after every third cell
+        for i in range(9):
+            for j in range(9):
+                padx = 10 if (j + 1) % 3 == 0 and j != 8 else 2
+                pady = 10 if (i + 1) % 3 == 0 and i != 8 else 2
+                self.cells[i][j].entry.grid(row=i, column=j, padx=padx, pady=pady)
+
         self.reset_button = ctk.CTkButton(
             master=self.board_frame,
             text="Reset",
