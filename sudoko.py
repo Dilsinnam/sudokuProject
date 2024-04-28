@@ -3,10 +3,7 @@ import sys
 import random
 import sudoku_generator
 
-# Need to be able to edit user imputed cells
-# Fix difficulty <DONE>
 # Fix exit button
-# Implement arrow keys <DONE>
 
 WIDTH = 540
 HEIGHT = 600
@@ -212,7 +209,7 @@ def main():
             screen.blit(text_restart, (WIDTH // 2 - text_restart.get_width() // 2, HEIGHT - 50))
             # Exit button
             text_exit = font.render("Exit", True, BLACK)
-            screen.blit(text_exit, (WIDTH - text_exit.get_width() // 2, HEIGHT - 50))
+            screen.blit(text_exit, (WIDTH - text_exit.get_width()-10, HEIGHT - 50))
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
