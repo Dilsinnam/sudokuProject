@@ -66,26 +66,27 @@ class Board:
 
 
     def generate_board(self):
-
         self.board = []
+        self.removed_cells = []
+        removal_counts = {"easy": 30, "medium": 40, "hard": 50}
+        removal_count = removal_counts[self.difficulty]
+        all_cells = [(row, col) for row in range(9) for col in range(9)]
+        random.shuffle(all_cells)
+
+        for row, col in all_cells[:removal_count]:
+            self.removed_cells.append((row, col))
+
         for row in range(9):
             current_row = []
             current_row_initial = []
             for col in range(9):
                 cell_value = solved_board[row][col]
-                if self.difficulty == "easy" and random.randint(1, 81) >= 50:
-                    cell_value = 0
-                elif self.difficulty == "medium" and random.randint(1, 81) >= 40:
-                    cell_value = 0
-                elif self.difficulty == "hard" and random.randint(1, 81) >= 30:
+                if (row, col) in self.removed_cells:
                     cell_value = 0
                 current_row.append(Cell(cell_value, row, col, self.screen))
                 current_row_initial.append(cell_value)
             self.board.append(current_row)
             self.initial_board.append(current_row_initial)
-
-
-
 
 
     def draw(self):
