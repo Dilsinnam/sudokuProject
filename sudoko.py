@@ -62,15 +62,18 @@ class Board:
         self.screen = screen
         self.difficulty = difficulty
         self.board = []
+        self.initial_board = []
         self.generate_board()
         self.selected_cell = None
         self.selected_cell_position = None
+
 
     def generate_board(self):
 
         self.board = []
         for row in range(9):
             current_row = []
+            current_row_initial = []
             for col in range(9):
                 cell_value = solved_board[row][col]
                 if self.difficulty == "easy" and random.randint(1, 81) >= 50:
@@ -80,7 +83,13 @@ class Board:
                 elif self.difficulty == "hard" and random.randint(1, 81) >= 30:
                     cell_value = 0
                 current_row.append(Cell(cell_value, row, col, self.screen))
+                current_row_initial.append(cell_value)
             self.board.append(current_row)
+            self.initial_board.append(current_row_initial)
+
+
+
+
 
     def draw(self):
 
@@ -119,11 +128,11 @@ class Board:
             self.selected_cell.set_cell_value(value)
 
     def reset_to_original(self):
-        for row in self.board:
-            for cell in row:
-                if not cell.value:
-                    cell.set_cell_value(0)
-                    cell.set_sketched_value(0)
+        for i in range(9):
+            for j in range(9):
+                if self.initial_board[i][j] != self.board[i][j].value or self.initial_board[i][j] == 0:
+                    self.board[i][j].set_cell_value(0)
+                    self.board[i][j].set_sketched_value(0)
 
     def is_full(self):
         for row in self.board:
