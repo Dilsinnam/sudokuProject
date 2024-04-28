@@ -2,6 +2,10 @@ import pygame
 import sys
 import random
 
+# Need to be able to edit user imputed cells
+# Fix difficulty
+# Fixed exit button
+# Implement arrow keys
 
 WIDTH = 540
 HEIGHT = 600
@@ -67,6 +71,7 @@ class Board:
         self.board = []
         self.generate_board()
         self.selected_cell = None
+        self.selected_cell_position = None
 
     def generate_board(self):
 
@@ -75,11 +80,11 @@ class Board:
             current_row = []
             for col in range(9):
                 cell_value = solved_board[row][col]
-                if self.difficulty == "easy" and random.randint(1, 81) > 30:
+                if self.difficulty == "easy" and random.randint(1, 81) >= 50:
                     cell_value = 0
-                elif self.difficulty == "medium" and random.randint(1, 81) > 40:
+                elif self.difficulty == "medium" and random.randint(1, 81) >= 40:
                     cell_value = 0
-                elif self.difficulty == "hard" and random.randint(1, 81) > 50:
+                elif self.difficulty == "hard" and random.randint(1, 81) >= 30:
                     cell_value = 0
                 current_row.append(Cell(cell_value, row, col, self.screen))
             self.board.append(current_row)
@@ -214,9 +219,9 @@ def main():
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     x, y = pygame.mouse.get_pos()
                     if y < HEIGHT - 60:
-                        cell_position = board.click(x, y)
-                        if cell_position:
-                            board.select(cell_position[0], cell_position[1])
+                        board.selected_cell_position = list(board.click(x, y))
+                        if board.selected_cell_position:
+                            board.select(board.selected_cell_position[0], board.selected_cell_position[1])
                     else:
                         if (10 <= x <= 10 + text_reset.get_width()) and \
                                 (HEIGHT - 50 <= y <= HEIGHT - 50 + 36):
@@ -251,6 +256,25 @@ def main():
                                     game_in_progress = False
                                     game_start = False
                                     game_over = True
+
+                        # Arrow Keys movement
+                        elif event.key == pygame.K_UP:
+                            board.selected_cell_position[0] -= 1
+                            board.select(board.selected_cell_position[0], board.selected_cell_position[1])
+
+                        elif event.key == pygame.K_DOWN:
+                            board.selected_cell_position[0] += 1
+                            board.select(board.selected_cell_position[0], board.selected_cell_position[1])
+
+                        elif event.key == pygame.K_LEFT:
+                            board.selected_cell_position[1] -= 1
+                            board.select(board.selected_cell_position[0], board.selected_cell_position[1])
+
+                        elif event.key == pygame.K_RIGHT:
+                            board.selected_cell_position[1] += 1
+                            board.select(board.selected_cell_position[0], board.selected_cell_position[1])
+
+
 
         elif game_over:
             font = pygame.font.Font(None, 74)
