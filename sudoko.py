@@ -1,11 +1,12 @@
 import pygame
 import sys
 import random
+import sudoku_generator
 
 # Need to be able to edit user imputed cells
-# Fix difficulty
-# Fixed exit button
-# Implement arrow keys
+# Fix difficulty <DONE>
+# Fix exit button
+# Implement arrow keys <DONE>
 
 WIDTH = 540
 HEIGHT = 600
@@ -17,17 +18,8 @@ BLACK = (0, 0, 0)
 GRAY = (200, 200, 200)
 RED = (255, 0, 0)
 
-solved_board = [
-    [5, 3, 4, 6, 7, 8, 9, 1, 2],
-    [6, 7, 2, 1, 9, 5, 3, 4, 8],
-    [1, 9, 8, 3, 4, 2, 5, 6, 7],
-    [8, 5, 9, 7, 6, 1, 4, 2, 3],
-    [4, 2, 6, 8, 5, 3, 7, 9, 1],
-    [7, 1, 3, 9, 2, 4, 8, 5, 6],
-    [9, 6, 1, 5, 3, 7, 2, 8, 4],
-    [2, 8, 7, 4, 1, 9, 6, 3, 5],
-    [3, 4, 5, 2, 8, 6, 1, 7, 9],
-]
+solved_board = sudoku_generator.generate_sudoku(9, 0)
+
 
 class Cell:
     def __init__(self, value, row, col, screen):
@@ -37,6 +29,7 @@ class Cell:
         self.col = col
         self.selected = False
         self.screen = screen
+        self.user_input = False
 
     def set_cell_value(self, value):
         self.value = value
@@ -147,6 +140,7 @@ class Board:
                     return False
         return True
 
+
 def main():
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -209,7 +203,7 @@ def main():
             screen.blit(text_restart, (WIDTH // 2 - text_restart.get_width() // 2, HEIGHT - 50))
             # Exit button
             text_exit = font.render("Exit", True, BLACK)
-            screen.blit(text_exit, (WIDTH                 - text_exit.get_width() // 2, HEIGHT - 50))
+            screen.blit(text_exit, (WIDTH - text_exit.get_width() // 2, HEIGHT - 50))
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -273,8 +267,6 @@ def main():
                         elif event.key == pygame.K_RIGHT:
                             board.selected_cell_position[1] += 1
                             board.select(board.selected_cell_position[0], board.selected_cell_position[1])
-
-
 
         elif game_over:
             font = pygame.font.Font(None, 74)
