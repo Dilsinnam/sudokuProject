@@ -3,7 +3,6 @@ import sys
 import random
 import sudoku_generator
 
-# Fix exit button
 
 WIDTH = 540
 HEIGHT = 600
