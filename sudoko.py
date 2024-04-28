@@ -294,30 +294,40 @@ def main():
                                     game_in_progress = False
                                     game_start = False
                                     game_over = True
-
-                        # Arrow Keys movement
-                        elif event.key == pygame.K_UP and board.selected_cell_position[0] > 0:
+                        elif (
+                            event.key == pygame.K_UP
+                            and board.selected_cell_position[0] > 0
+                        ):
                             board.selected_cell_position[0] -= 1
                             board.select(
                                 board.selected_cell_position[0],
                                 board.selected_cell_position[1],
                             )
 
-                        elif event.key == pygame.K_DOWN and board.selected_cell_position[0] < 8:
+                        elif (
+                            event.key == pygame.K_DOWN
+                            and board.selected_cell_position[0] < 8
+                        ):
                             board.selected_cell_position[0] += 1
                             board.select(
                                 board.selected_cell_position[0],
                                 board.selected_cell_position[1],
                             )
 
-                        elif event.key == pygame.K_LEFT and board.selected_cell_position[1] > 0:
+                        elif (
+                            event.key == pygame.K_LEFT
+                            and board.selected_cell_position[1] > 0
+                        ):
                             board.selected_cell_position[1] -= 1
                             board.select(
                                 board.selected_cell_position[0],
                                 board.selected_cell_position[1],
                             )
 
-                        elif event.key == pygame.K_RIGHT and board.selected_cell_position[1] < 8:
+                        elif (
+                            event.key == pygame.K_RIGHT
+                            and board.selected_cell_position[1] < 8
+                        ):
                             board.selected_cell_position[1] += 1
                             board.select(
                                 board.selected_cell_position[0],
@@ -359,7 +369,9 @@ def main():
                         difficulty = None
                         board = None
                         game_over = False
-                    elif (WIDTH // 2 - text_restart.get_width() // 2) <= x <= (WIDTH // 2 + text_restart.get_width() // 2) and (HEIGHT - 50 <= y <= HEIGHT - 50 + 36):
+                    elif (WIDTH // 2 - text_restart.get_width() // 2) <= x <= (
+                        WIDTH // 2 + text_restart.get_width() // 2
+                    ) and (HEIGHT - 50 <= y <= HEIGHT - 50 + 36):
                         game_in_progress = False
                         game_start = True
                         difficulty = None
