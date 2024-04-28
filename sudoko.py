@@ -340,7 +340,8 @@ def main():
             )
 
             text_exit = font.render("Exit", True, BLACK)
-            screen.blit(text_exit, (WIDTH - text_exit.get_width() // 2, HEIGHT - 50))
+            exit_button_width = text_exit.get_width()
+            screen.blit(text_exit, (WIDTH - exit_button_width - 10, HEIGHT - 50))
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -348,11 +349,11 @@ def main():
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     x, y = pygame.mouse.get_pos()
-                    if (
-                        WIDTH // 2 - text_restart.get_width() // 2
-                        <= x
-                        <= WIDTH // 2 + text_restart.get_width() // 2
-                    ) and (HEIGHT - 50 <= y <= HEIGHT - 50 + 36):
+                    if (WIDTH - exit_button_width - 10) <= x <= (WIDTH - 10) and (
+                        HEIGHT - 50 <= y <= HEIGHT - 14
+                    ):
+                        pygame.quit()
+                        sys.exit()
                         game_in_progress = False
                         game_start = True
                         difficulty = None
