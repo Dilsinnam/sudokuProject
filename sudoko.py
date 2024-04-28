@@ -64,7 +64,6 @@ class Board:
         self.selected_cell = None
         self.selected_cell_position = None
 
-
     def generate_board(self):
         self.board = []
         self.removed_cells = []
@@ -88,18 +87,25 @@ class Board:
             self.board.append(current_row)
             self.initial_board.append(current_row_initial)
 
-
     def draw(self):
 
         for row in range(10):
             line_thickness = 1 if row % 3 != 0 else 3
             pygame.draw.line(
-                self.screen, BLACK, (0, row * CELL_SIZE), (WIDTH, row * CELL_SIZE), line_thickness
+                self.screen,
+                BLACK,
+                (0, row * CELL_SIZE),
+                (WIDTH, row * CELL_SIZE),
+                line_thickness,
             )
         for col in range(10):
             line_thickness = 1 if col % 3 != 0 else 3
             pygame.draw.line(
-                self.screen, BLACK, (col * CELL_SIZE, 0), (col * CELL_SIZE, HEIGHT - 60), line_thickness
+                self.screen,
+                BLACK,
+                (col * CELL_SIZE, 0),
+                (col * CELL_SIZE, HEIGHT - 60),
+                line_thickness,
             )
         # Draw the cells
         for row in self.board:
@@ -128,7 +134,10 @@ class Board:
     def reset_to_original(self):
         for i in range(9):
             for j in range(9):
-                if self.initial_board[i][j] != self.board[i][j].value or self.initial_board[i][j] == 0:
+                if (
+                    self.initial_board[i][j] != self.board[i][j].value
+                    or self.initial_board[i][j] == 0
+                ):
                     self.board[i][j].set_cell_value(0)
                     self.board[i][j].set_sketched_value(0)
 
@@ -172,9 +181,15 @@ def main():
             text_easy = font.render("Easy", True, BLACK)
             text_medium = font.render("Medium", True, BLACK)
             text_hard = font.render("Hard", True, BLACK)
-            screen.blit(text_easy, (WIDTH // 4 - text_easy.get_width() // 2, HEIGHT // 2))
-            screen.blit(text_medium, (WIDTH // 2 - text_medium.get_width() // 2, HEIGHT // 2))
-            screen.blit(text_hard, (3 * WIDTH // 4 - text_hard.get_width() // 2, HEIGHT // 2))
+            screen.blit(
+                text_easy, (WIDTH // 4 - text_easy.get_width() // 2, HEIGHT // 2)
+            )
+            screen.blit(
+                text_medium, (WIDTH // 2 - text_medium.get_width() // 2, HEIGHT // 2)
+            )
+            screen.blit(
+                text_hard, (3 * WIDTH // 4 - text_hard.get_width() // 2, HEIGHT // 2)
+            )
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -182,18 +197,21 @@ def main():
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     x, y = pygame.mouse.get_pos()
-                    if (WIDTH // 4 - text_easy.get_width() // 2) <= x <= (WIDTH // 4 + text_easy.get_width() // 2) and \
-                       (HEIGHT // 2) <= y <= (HEIGHT // 2 + 36):
+                    if (WIDTH // 4 - text_easy.get_width() // 2) <= x <= (
+                        WIDTH // 4 + text_easy.get_width() // 2
+                    ) and (HEIGHT // 2) <= y <= (HEIGHT // 2 + 36):
                         difficulty = "easy"
                         game_start = False
                         game_in_progress = True
-                    elif (WIDTH // 2 - text_medium.get_width() // 2) <= x <= (WIDTH // 2 + text_medium.get_width() // 2) and \
-                         (HEIGHT // 2) <= y <= (HEIGHT // 2 + 36):
+                    elif (WIDTH // 2 - text_medium.get_width() // 2) <= x <= (
+                        WIDTH // 2 + text_medium.get_width() // 2
+                    ) and (HEIGHT // 2) <= y <= (HEIGHT // 2 + 36):
                         difficulty = "medium"
                         game_start = False
                         game_in_progress = True
-                    elif (3 * WIDTH // 4 - text_hard.get_width() // 2) <= x <= (3 * WIDTH // 4 + text_hard.get_width() // 2) and \
-                       (HEIGHT // 2) <= y <= (HEIGHT // 2 + 36):
+                    elif (3 * WIDTH // 4 - text_hard.get_width() // 2) <= x <= (
+                        3 * WIDTH // 4 + text_hard.get_width() // 2
+                    ) and (HEIGHT // 2) <= y <= (HEIGHT // 2 + 36):
                         difficulty = "hard"
                         game_start = False
                         game_in_progress = True
@@ -207,10 +225,12 @@ def main():
             text_reset = font.render("Reset", True, BLACK)
             screen.blit(text_reset, (10, HEIGHT - 50))
             text_restart = font.render("Restart", True, BLACK)
-            screen.blit(text_restart, (WIDTH // 2 - text_restart.get_width() // 2, HEIGHT - 50))
+            screen.blit(
+                text_restart, (WIDTH // 2 - text_restart.get_width() // 2, HEIGHT - 50)
+            )
             # Exit button
             text_exit = font.render("Exit", True, BLACK)
-            screen.blit(text_exit, (WIDTH - text_exit.get_width()-10, HEIGHT - 50))
+            screen.blit(text_exit, (WIDTH - text_exit.get_width() - 10, HEIGHT - 50))
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -222,26 +242,43 @@ def main():
                     if y < HEIGHT - 60:
                         board.selected_cell_position = list(board.click(x, y))
                         if board.selected_cell_position:
-                            board.select(board.selected_cell_position[0], board.selected_cell_position[1])
+                            board.select(
+                                board.selected_cell_position[0],
+                                board.selected_cell_position[1],
+                            )
                     else:
-                        if (10 <= x <= 10 + text_reset.get_width()) and \
-                                (HEIGHT - 50 <= y <= HEIGHT - 50 + 36):
+                        if (10 <= x <= 10 + text_reset.get_width()) and (
+                            HEIGHT - 50 <= y <= HEIGHT - 50 + 36
+                        ):
                             board.reset_to_original()
-                        elif (WIDTH // 2 - text_restart.get_width() // 2 <= x <= WIDTH // 2 + text_restart.get_width() // 2) and \
-                                (HEIGHT - 50 <= y <= HEIGHT - 50 + 36):
+                        elif (
+                            WIDTH // 2 - text_restart.get_width() // 2
+                            <= x
+                            <= WIDTH // 2 + text_restart.get_width() // 2
+                        ) and (HEIGHT - 50 <= y <= HEIGHT - 50 + 36):
                             game_in_progress = False
                             game_start = True
                             difficulty = None
                             board = None
-                        elif (WIDTH - text_exit.get_width() // 2 <= x <= WIDTH) and \
-                                (HEIGHT - 50 <= y <= HEIGHT - 50 + 36):
+                        elif (
+                            WIDTH - text_exit.get_width() - 10 <= x <= WIDTH - 10
+                        ) and (HEIGHT - 50 <= y <= HEIGHT - 14):
                             pygame.quit()
                             sys.exit()
 
                 elif event.type == pygame.KEYDOWN:
                     if board.selected_cell:
-                        if event.key in (pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4, pygame.K_5,
-                                         pygame.K_6, pygame.K_7, pygame.K_8, pygame.K_9):
+                        if event.key in (
+                            pygame.K_1,
+                            pygame.K_2,
+                            pygame.K_3,
+                            pygame.K_4,
+                            pygame.K_5,
+                            pygame.K_6,
+                            pygame.K_7,
+                            pygame.K_8,
+                            pygame.K_9,
+                        ):
                             value = int(pygame.key.name(event.key))
                             board.sketch(value)
                         elif event.key == pygame.K_RETURN:
@@ -261,19 +298,31 @@ def main():
                         # Arrow Keys movement
                         elif event.key == pygame.K_UP:
                             board.selected_cell_position[0] -= 1
-                            board.select(board.selected_cell_position[0], board.selected_cell_position[1])
+                            board.select(
+                                board.selected_cell_position[0],
+                                board.selected_cell_position[1],
+                            )
 
                         elif event.key == pygame.K_DOWN:
                             board.selected_cell_position[0] += 1
-                            board.select(board.selected_cell_position[0], board.selected_cell_position[1])
+                            board.select(
+                                board.selected_cell_position[0],
+                                board.selected_cell_position[1],
+                            )
 
                         elif event.key == pygame.K_LEFT:
                             board.selected_cell_position[1] -= 1
-                            board.select(board.selected_cell_position[0], board.selected_cell_position[1])
+                            board.select(
+                                board.selected_cell_position[0],
+                                board.selected_cell_position[1],
+                            )
 
                         elif event.key == pygame.K_RIGHT:
                             board.selected_cell_position[1] += 1
-                            board.select(board.selected_cell_position[0], board.selected_cell_position[1])
+                            board.select(
+                                board.selected_cell_position[0],
+                                board.selected_cell_position[1],
+                            )
 
         elif game_over:
             font = pygame.font.Font(None, 74)
@@ -286,7 +335,9 @@ def main():
             font = pygame.font.Font(None, 36)
 
             text_restart = font.render("Restart", True, BLACK)
-            screen.blit(text_restart, (WIDTH // 2 - text_restart.get_width() // 2, HEIGHT - 50))
+            screen.blit(
+                text_restart, (WIDTH // 2 - text_restart.get_width() // 2, HEIGHT - 50)
+            )
 
             text_exit = font.render("Exit", True, BLACK)
             screen.blit(text_exit, (WIDTH - text_exit.get_width() // 2, HEIGHT - 50))
@@ -297,15 +348,19 @@ def main():
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     x, y = pygame.mouse.get_pos()
-                    if (WIDTH // 2 - text_restart.get_width() // 2 <= x <= WIDTH // 2 + text_restart.get_width() // 2) and \
-                            (HEIGHT - 50 <= y <= HEIGHT - 50 + 36):
+                    if (
+                        WIDTH // 2 - text_restart.get_width() // 2
+                        <= x
+                        <= WIDTH // 2 + text_restart.get_width() // 2
+                    ) and (HEIGHT - 50 <= y <= HEIGHT - 50 + 36):
                         game_in_progress = False
                         game_start = True
                         difficulty = None
                         board = None
                         game_over = False
-                    elif (WIDTH - text_exit.get_width() // 2 <= x <= WIDTH) and \
-                            (HEIGHT - 50 <= y <= HEIGHT - 50 + 36):
+                    elif (WIDTH - text_exit.get_width() // 2 <= x <= WIDTH) and (
+                        HEIGHT - 50 <= y <= HEIGHT - 50 + 36
+                    ):
                         pygame.quit()
                         sys.exit()
 
@@ -313,6 +368,5 @@ def main():
         clock.tick(30)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-
