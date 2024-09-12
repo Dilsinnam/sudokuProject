@@ -42,7 +42,7 @@ This file generates Sudoku puzzles by first creating a fully solved grid, then r
 **Solving a Sudoku Puzzle**
 1. Prepare a 9x9 grid with zeros representing empty cells.
 2. Run the solver:
-    ```
+    ```bash
     python sudoko.py
 
 3. Follow the prompts to enter the puzzle, and the solver will output the solution.
@@ -50,7 +50,7 @@ This file generates Sudoku puzzles by first creating a fully solved grid, then r
 ## Generating a Sudoku Puzzle
 
 1. Run the generator:
-    ```
+    ```bash
     python sudoku_generator.py
     
 2. Choose a difficulty level and a new puzzle will be printed.
